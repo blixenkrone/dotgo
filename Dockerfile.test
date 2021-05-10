@@ -1,0 +1,22 @@
+FROM go:1.16-alpine
+
+#build stage
+FROM golang:alpine AS builder
+RUN apk add --no-cache git
+WORKDIR /go/bin/app
+
+COPY go.mod .
+COPY go.sum .
+RUN go mod download
+
+COPY . .
+# RUN go get -d -v ./...
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o dotgo /go/bin/app/cmd/dotgo/dotgo.go
+
+#final stage
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
+COPY --from=builder /go/bin/app /bin
+COPY --from=builder /go/bin/app/linker/symbolic/fixtures /fixtures
+LABEL Name=dotgo Version=1.0.0
+CMD [ "/bin/dotgo", "ln", "-s", "./fixtures" ]
