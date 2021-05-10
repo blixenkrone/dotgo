@@ -43,7 +43,7 @@ func linkFromDir() CobraFunc {
 			destdir = usr.HomeDir
 		}
 
-		o, err := symbolic.NewDirOp(l, srcdir, destdir, recursiveFlag)
+		o, err := symbolic.NewDirOp(l, srcdir, destdir, recursiveFlag, whitelistedFlag...)
 		if err != nil {
 			cmd.PrintErr(err)
 			return
@@ -53,7 +53,7 @@ func linkFromDir() CobraFunc {
 			cmd.PrintErr(err)
 			return
 		}
-		cmd.Printf("linked %d/%d files to %s", unlinked, total, destdir)
+		cmd.Printf("processed %d/%d files to %s", total-unlinked, total, destdir)
 	}
 }
 

@@ -18,6 +18,7 @@ var (
 	blacklisted = map[string]struct{}{
 		".git":       {},
 		".gitignore": {},
+		".DS_Store":  {},
 	}
 )
 
@@ -65,8 +66,8 @@ func (o *DirOperation) linkFromDir() (int, int, error) {
 	}
 
 	for _, entry := range dirEntries {
-		o.log.Infof("linking '%s'", entry.Name())
 		if _, ok := blacklisted[entry.Name()]; ok {
+			o.log.Warnf("file '%s' is blacklisted", entry.Name())
 			continue
 		}
 		d := dotFile{
@@ -152,7 +153,11 @@ type SymbolicLinkError struct {
 }
 
 func (e SymbolicLinkError) Error() string {
-	return fmt.Sprintf("%s failed symbolic link: %+v", e.fname, e.err)
+	return fmt.Sprintf("%s failed symbolic link: %v \n", e.fname, e.err)
+}
+
+func (e SymbolicLinkError) Unwrap() error {
+	return e.err
 }
 
 // guarantee that a filename is unique

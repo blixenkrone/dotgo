@@ -19,4 +19,4 @@ RUN apk --no-cache add ca-certificates
 COPY --from=builder /go/bin/app /bin
 COPY --from=builder /go/bin/app/linker/symbolic/fixtures /fixtures
 LABEL Name=dotgo Version=1.0.0
-CMD [ "/bin/dotgo", "ln", "-s", "./fixtures" ]
+CMD [ "/bin/dotgo", "ln", "-s", "./fixtures", "-w", "Whitelisted" ]
