@@ -93,7 +93,7 @@ func (o *DirOperation) linkFromDir() (int, int, error) {
 				o.log.Warnf("file already exists %s", d.Name())
 				continue
 			}
-			o.log.Errorf("File '%s' error on link: %v", d.Name(), err)
+			o.log.Errorf("file '%s' link error: %v", d.Name(), err)
 			return unLinkedFiles, len(dirEntries), err
 		}
 		unLinkedFiles--
