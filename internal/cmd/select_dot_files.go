@@ -3,7 +3,6 @@ package cmd
 import (
 	"os/user"
 
-	"github.com/blixenkrone/dotgo/linker"
 	"github.com/blixenkrone/dotgo/linker/symbolic"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -48,7 +47,8 @@ func linkFromDir() CobraFunc {
 			cmd.PrintErr(err)
 			return
 		}
-		unlinked, total, err := linker.Link(o)
+
+		unlinked, total, err := o.Link()
 		if err != nil {
 			cmd.PrintErr(err)
 			return

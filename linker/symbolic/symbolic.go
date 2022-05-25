@@ -51,7 +51,7 @@ func NewDirOp(log linker.Logger, inDir, outDir string, recursive bool, whitelist
 	return &DirOperation{log, absDirSrc, absDirDest, wl, recursive}, nil
 }
 
-// Attempts to create a symbolic link from the specified operation src and dest paths.
+// Attempts to create a symbolic Link from the specified operation src and dest paths.
 func (o *DirOperation) Link() (int, int, error) {
 	return o.linkFromDir()
 }
